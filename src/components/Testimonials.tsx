@@ -5,6 +5,7 @@ import { motion } from 'framer-motion';
 import { testimonials } from '../data/testimonials';
 import PlanetCard from './PlanetCard';
 import styles from '../styles/components/Testimonials.module.scss';
+import Image from 'next/image';
 
 export default function Testimonials() {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -70,11 +71,23 @@ export default function Testimonials() {
                 <div className={styles.testimonialCard}>
                   <div className={styles.testimonialContent}>
                     <p className={styles.testimonialQuote}>
-                      "{testimonial.quote}"
+                      &quot;{testimonial.quote}&quot;
                     </p>
                     <div className={styles.testimonialAuthor}>
                       <div className={styles.avatarWrapper}>
-                        <img src={testimonial.avatar} alt={testimonial.name} />
+                        <Image 
+                          src={testimonial.avatar} 
+                          alt={testimonial.name}
+                          width={60}
+                          height={60}
+                          style={{ objectFit: 'cover', width: '100%', height: '100%' }}
+                          unoptimized
+                          loading="lazy"
+                          onError={(e) => {
+                            const target = e.target as HTMLImageElement;
+                            target.src = 'https://via.placeholder.com/60x60?text=Avatar';
+                          }}
+                        />
                       </div>
                       <div className={styles.authorInfo}>
                         <h4 className={styles.authorName}>{testimonial.name}</h4>

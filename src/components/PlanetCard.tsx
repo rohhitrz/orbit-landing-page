@@ -55,8 +55,8 @@ export default function PlanetCard({
         return () => {
           if (cardNode) {
             cardNode.removeEventListener('mousemove', handleMouseMove);
-            if ((cardNode as any).vanillaTilt) {
-              (cardNode as any).vanillaTilt.destroy();
+            if ('vanillaTilt' in cardNode) {
+              (cardNode as { vanillaTilt: { destroy: () => void } }).vanillaTilt.destroy();
             }
           }
         };

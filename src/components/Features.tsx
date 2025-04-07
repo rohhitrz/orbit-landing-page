@@ -47,8 +47,8 @@ function TiltCard({ children, className }: TiltCardProps) {
         
         // Clean up
         return () => {
-          if (tiltNode && (tiltNode as any).vanillaTilt) {
-            (tiltNode as any).vanillaTilt.destroy();
+          if (tiltNode && 'vanillaTilt' in tiltNode) {
+            (tiltNode as { vanillaTilt: { destroy: () => void } }).vanillaTilt.destroy();
           }
         };
       });
@@ -104,7 +104,7 @@ export default function Features() {
             viewport={{ once: true, margin: "-100px" }}
             transition={{ duration: 0.7, delay: 0.1 }}
           >
-            Discover how Orbit's technology is revolutionizing the future of space and AI interaction.
+            Discover how Orbit&apos;s technology is revolutionizing the future of space and AI interaction.
           </motion.p>
         </div>
         

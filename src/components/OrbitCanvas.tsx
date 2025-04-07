@@ -3,7 +3,6 @@
 import { useState, useRef, useEffect } from 'react';
 import { Canvas, useFrame } from '@react-three/fiber';
 import { 
-  Sphere, 
   useTexture, 
   OrbitControls, 
   PerspectiveCamera, 
