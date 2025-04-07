@@ -5,6 +5,7 @@ import { Link as ScrollLink } from 'react-scroll';
 import { motion, AnimatePresence } from 'framer-motion';
 import { HiOutlineMenuAlt4, HiX } from 'react-icons/hi';
 import { FiPocket } from 'react-icons/fi';
+import ThemeToggle from './ThemeToggle';
 import styles from '../styles/components/Navbar.module.scss';
 
 const navLinks = [
@@ -83,6 +84,14 @@ export default function Navbar() {
             </motion.div>
           ))}
           <motion.div
+            className={styles.themeToggleWrapper}
+            initial={{ opacity: 0, scale: 0.8 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.3, delay: 0.5 }}
+          >
+            <ThemeToggle />
+          </motion.div>
+          <motion.div
             initial={{ opacity: 0, scale: 0.8 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.3, delay: 0.6 }}
@@ -144,6 +153,15 @@ export default function Navbar() {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.3, delay: 0.4 }}
+                exit={{ opacity: 0, y: 10 }}
+                className={styles.mobileThemeToggle}
+              >
+                <ThemeToggle />
+              </motion.div>
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.3, delay: 0.5 }}
                 exit={{ opacity: 0, y: 10 }}
               >
                 <ScrollLink

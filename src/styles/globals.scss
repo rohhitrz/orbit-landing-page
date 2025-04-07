@@ -1,7 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Outfit:wght@300;400;500;600;700&display=swap');
 
 :root {
-  // Color palette
+  // Color palette - Dark theme (default)
   --color-bg-primary: #030014;
   --color-bg-secondary: #0a0125;
   --color-accent-blue: #00d2ff;
@@ -9,6 +9,22 @@
   --color-text-primary: #ffffff;
   --color-text-secondary: rgba(255, 255, 255, 0.8);
   --color-text-muted: rgba(255, 255, 255, 0.6);
+  
+  // Theme-specific variables
+  --background: #0a0a0a;
+  --foreground: #ededed;
+  --card-bg: #151515;
+  --card-border: #252525;
+  --accent-color: #5277F7;
+  --secondary-color: #8aabff;
+  --text-color: #ededed;
+  --text-secondary: #a0a0a0;
+  --planet-glow: rgba(82, 119, 247, 0.8);
+  --button-bg: #5277F7;
+  --button-hover: #3d63e3;
+  --button-text: #ffffff;
+  --nav-bg: rgba(10, 10, 10, 0.7);
+  --shadow: rgba(0, 0, 0, 0.3);
   
   // Spacing
   --space-xs: 0.25rem;  // 4px
@@ -41,10 +57,40 @@
   --z-tooltip: 500;
 }
 
+html[data-theme='light'] {
+  // Color palette - Light theme
+  --color-bg-primary: #f5f7fa;
+  --color-bg-secondary: #e9eef5;
+  --color-accent-blue: #0070f3;
+  --color-accent-purple: #6941c6;
+  --color-text-primary: #111827;
+  --color-text-secondary: rgba(17, 24, 39, 0.8);
+  --color-text-muted: rgba(17, 24, 39, 0.6);
+  
+  // Theme-specific variables
+  --background: #ffffff;
+  --foreground: #171717;
+  --card-bg: #f5f5f5;
+  --card-border: #e5e5e5;
+  --accent-color: #0070f3;
+  --secondary-color: #5277F7;
+  --text-color: #171717;
+  --text-secondary: #666666;
+  --planet-glow: rgba(82, 119, 247, 0.5);
+  --button-bg: #0070f3;
+  --button-hover: #0051c2;
+  --button-text: #ffffff;
+  --nav-bg: rgba(255, 255, 255, 0.7);
+  --shadow: rgba(0, 0, 0, 0.1);
+}
+
 * {
   box-sizing: border-box;
   padding: 0;
   margin: 0;
+  transition-property: background-color, border-color, color, fill, stroke, opacity, box-shadow, transform, filter, backdrop-filter;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 0.3s;
 }
 
 html,
@@ -55,6 +101,7 @@ body {
   color: var(--color-text-primary);
   font-family: 'Outfit', sans-serif;
   scroll-behavior: smooth;
+  transition: background-color 0.5s ease, color 0.5s ease;
 }
 
 h1, h2, h3, h4, h5, h6 {

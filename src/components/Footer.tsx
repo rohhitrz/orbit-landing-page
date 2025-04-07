@@ -1,7 +1,8 @@
 'use client';
 
+import { useState } from 'react';
 import Link from 'next/link';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import { 
   FiPocket, 
   FiMail, 
@@ -15,9 +16,30 @@ import styles from '../styles/components/Footer.module.scss';
 
 export default function Footer() {
   const currentYear = new Date().getFullYear();
+  const [easterEggActive, setEasterEggActive] = useState(false);
+  
+  const triggerEasterEgg = () => {
+    setEasterEggActive(true);
+    setTimeout(() => setEasterEggActive(false), 4000);
+  };
   
   return (
     <footer className={styles.footer}>
+      <AnimatePresence>
+        {easterEggActive && (
+          <motion.div 
+            className={styles.rocketEasterEgg}
+            initial={{ bottom: -100, opacity: 0 }}
+            animate={{ bottom: '100%', opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 4, ease: "easeOut" }}
+          >
+            <div className={styles.rocket}>🚀</div>
+            <div className={styles.rocketTrail}></div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+      
       <div className={styles.footerContent}>
         <div className={styles.footerTop}>
           <div className={styles.logoSection}>
@@ -162,7 +184,13 @@ export default function Footer() {
         
         <div className={styles.footerBottom}>
           <div className={styles.copyright}>
-            &copy; {currentYear} Orbit. All rights reserved. <span>👾 Built by stardust and code.</span>
+            &copy; {currentYear} Orbit. All rights reserved. {' '}
+            <span 
+              className={styles.easterEggTrigger} 
+              onClick={triggerEasterEgg}
+            >
+              👾 Built by stardust and code.
+            </span>
           </div>
           
           <div className={styles.footerLinks}>

@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useRef, useEffect } from 'react';
-import { Canvas, useFrame } from '@react-three/fiber';
+import { Canvas, useFrame, useThree } from '@react-three/fiber';
 import { 
   useTexture, 
   OrbitControls, 
@@ -11,10 +11,36 @@ import {
 import * as THREE from 'three';
 import styles from '../styles/components/OrbitCanvas.module.scss';
 
+// Scroll tracking component
+function ScrollTracker({ setScrollProgress }: { setScrollProgress: (value: number) => void }) {
+  useEffect(() => {
+    const handleScroll = () => {
+      const scrollY = window.scrollY;
+      const height = document.documentElement.scrollHeight - window.innerHeight;
+      const progress = Math.min(Math.max(scrollY / height, 0), 1);
+      setScrollProgress(progress);
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, [setScrollProgress]);
+
+  return null;
+}
+
 // Planet component within the canvas
-function Planet({ position = [0, 0, 0], scale = 2.5 }: { position?: number[], scale?: number }) {
+function Planet({ 
+  position = [0, 0, 0], 
+  scale = 2.5,
+  scrollProgress = 0 
+}: { 
+  position?: number[], 
+  scale?: number,
+  scrollProgress?: number
+}) {
   const meshRef = useRef<THREE.Mesh>(null);
   const groupRef = useRef<THREE.Group>(null);
+  const { viewport } = useThree();
 
   // Load textures from reliable sources
   const textures = useTexture({
@@ -27,11 +53,22 @@ function Planet({ position = [0, 0, 0], scale = 2.5 }: { position?: number[], sc
   // Animation for rotation
   useFrame(({ clock }) => {
     if (meshRef.current) {
+      // Base rotation
       meshRef.current.rotation.y = clock.getElapsedTime() * 0.1;
-    }
-    
-    if (groupRef.current) {
-      groupRef.current.rotation.y = clock.getElapsedTime() * 0.05;
+      
+      // Scroll-based zoom and rotation effect
+      if (groupRef.current) {
+        // Scale based on scroll progress (zoom in as user scrolls)
+        const baseScale = scale * (1 + scrollProgress * 0.3);
+        groupRef.current.scale.set(baseScale, baseScale, baseScale);
+        
+        // Tilt based on scroll progress
+        groupRef.current.rotation.x = scrollProgress * 0.2;
+        groupRef.current.rotation.y = clock.getElapsedTime() * 0.05 + scrollProgress * Math.PI;
+        
+        // Slight position adjustment based on scroll
+        groupRef.current.position.z = scrollProgress * -2;
+      }
     }
   });
 
@@ -66,7 +103,7 @@ function Planet({ position = [0, 0, 0], scale = 2.5 }: { position?: number[], sc
         <meshBasicMaterial
           color={new THREE.Color('#4287f5')}
           transparent
-          opacity={0.04}
+          opacity={0.04 + scrollProgress * 0.1} // Increase glow with scroll
           side={THREE.BackSide}
         />
       </mesh>
@@ -76,7 +113,7 @@ function Planet({ position = [0, 0, 0], scale = 2.5 }: { position?: number[], sc
         <ringGeometry args={[1.5, 1.55, 64]} />
         <meshBasicMaterial 
           color={new THREE.Color('#7b33e1')} 
-          opacity={0.3} 
+          opacity={0.3 + scrollProgress * 0.4} // Increase opacity with scroll
           transparent 
           side={THREE.DoubleSide}
         />
@@ -86,16 +123,16 @@ function Planet({ position = [0, 0, 0], scale = 2.5 }: { position?: number[], sc
 }
 
 // Star field component
-function StarField() {
+function StarField({ scrollProgress = 0 }) {
   return (
     <Stars
-      radius={100}
+      radius={100 - scrollProgress * 20} // Stars get closer as you scroll
       depth={50}
       count={5000}
-      factor={4}
-      saturation={0}
+      factor={4 + scrollProgress * 2} // Increase brightness with scroll
+      saturation={scrollProgress * 0.5} // Increase color with scroll
       fade
-      speed={1}
+      speed={1 + scrollProgress * 0.5} // Speed up with scroll
     />
   );
 }
@@ -103,6 +140,7 @@ function StarField() {
 // Main component
 export default function OrbitCanvas() {
   const [loading, setLoading] = useState(true);
+  const [scrollProgress, setScrollProgress] = useState(0);
 
   useEffect(() => {
     // Simulate loading time
@@ -115,6 +153,7 @@ export default function OrbitCanvas() {
 
   return (
     <>
+      <ScrollTracker setScrollProgress={setScrollProgress} />
       <div className={`${styles.canvasContainer} ${loading ? styles.loading : ''}`}>
         <Canvas shadows dpr={[1, 2]}>
           <PerspectiveCamera makeDefault position={[0, 0, 10]} fov={40} />
@@ -128,8 +167,8 @@ export default function OrbitCanvas() {
             shadow-mapSize-height={1024}
           />
           
-          <Planet />
-          <StarField />
+          <Planet scrollProgress={scrollProgress} />
+          <StarField scrollProgress={scrollProgress} />
           
           <OrbitControls
             enableZoom={false}
