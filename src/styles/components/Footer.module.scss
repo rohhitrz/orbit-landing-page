@@ -331,4 +331,70 @@
     height: 100px;
     opacity: 1;
   }
+}
+
+.planetEasterEggs {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+.planet {
+  position: absolute;
+  font-size: 1.25rem;
+  filter: drop-shadow(0 0 5px rgba(0, 210, 255, 0.5));
+  
+  &:hover::after {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  
+  &::after {
+    content: 'Built with stardust & code';
+    position: absolute;
+    top: -30px;
+    left: 50%;
+    transform: translateX(-50%) translateY(10px);
+    background: rgba(10, 1, 37, 0.8);
+    backdrop-filter: blur(5px);
+    padding: 0.5rem 0.75rem;
+    border-radius: 4px;
+    font-size: 0.75rem;
+    white-space: nowrap;
+    color: var(--color-text-primary);
+    opacity: 0;
+    pointer-events: none;
+    transition: all 0.3s ease;
+    z-index: 10;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    border: 1px solid rgba(123, 51, 225, 0.3);
+  }
+}
+
+.planet1 {
+  top: -20px;
+  right: -30px;
+}
+
+.planet2 {
+  bottom: -15px;
+  left: -25px;
+}
+
+.planet3 {
+  top: 20px;
+  left: -15px;
+  font-size: 1rem;
+}
+
+.musicToggleWrapper {
+  margin-left: var(--space-md);
+  
+  @media (max-width: 768px) {
+    margin-left: 0;
+    margin-top: var(--space-md);
+  }
 } 

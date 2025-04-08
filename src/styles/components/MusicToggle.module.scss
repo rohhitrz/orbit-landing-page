@@ -1,0 +1,78 @@
+.musicToggle {
+  display: inline-flex;
+  align-items: center;
+  background: rgba(10, 1, 37, 0.5);
+  border: 1px solid rgba(123, 51, 225, 0.3);
+  border-radius: 30px;
+  padding: 0.5rem 1rem;
+  color: var(--color-text-primary);
+  cursor: pointer;
+  font-size: 0.875rem;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+  
+  &:hover {
+    background: rgba(15, 3, 50, 0.7);
+    border-color: rgba(123, 51, 225, 0.5);
+    box-shadow: 0 0 15px rgba(0, 210, 255, 0.3);
+  }
+  
+  &:focus {
+    outline: none;
+  }
+  
+  @media (max-width: 768px) {
+    font-size: 0.75rem;
+    padding: 0.4rem 0.8rem;
+  }
+}
+
+.musicOn {
+  display: flex;
+  align-items: center;
+}
+
+.waves {
+  display: flex;
+  align-items: center;
+  margin-left: 8px;
+  height: 12px;
+}
+
+@keyframes wave {
+  0% {
+    height: 3px;
+  }
+  50% {
+    height: 12px;
+  }
+  100% {
+    height: 3px;
+  }
+}
+
+.wave1, .wave2, .wave3 {
+  width: 2px;
+  background: var(--color-accent-blue);
+  margin: 0 1px;
+  border-radius: 2px;
+  animation: wave 1.2s infinite;
+  box-shadow: 0 0 5px rgba(0, 210, 255, 0.7);
+}
+
+.wave1 {
+  height: 3px;
+  animation-delay: 0s;
+}
+
+.wave2 {
+  height: 6px;
+  animation-delay: 0.2s;
+}
+
+.wave3 {
+  height: 9px;
+  animation-delay: 0.4s;
+} 

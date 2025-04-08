@@ -13,6 +13,7 @@ import {
   FiChevronRight
 } from 'react-icons/fi';
 import styles from '../styles/components/Footer.module.scss';
+import MusicToggle from './MusicToggle';
 
 export default function Footer() {
   const currentYear = new Date().getFullYear();
@@ -48,6 +49,57 @@ export default function Footer() {
               <span>Orbit</span>
             </Link>
             <div className={styles.logoRing}></div>
+            
+            {/* Planet easter eggs */}
+            <div className={styles.planetEasterEggs}>
+              <motion.div 
+                className={`${styles.planet} ${styles.planet1}`}
+                animate={{
+                  y: [0, -10, 0],
+                  rotate: [0, 10, 0],
+                  x: [0, 5, 0]
+                }}
+                transition={{
+                  duration: 8,
+                  repeat: Infinity,
+                  ease: "easeInOut"
+                }}
+                title="Built with stardust & code"
+              >
+                🪐
+              </motion.div>
+              
+              <motion.div 
+                className={`${styles.planet} ${styles.planet2}`}
+                animate={{
+                  y: [0, 10, 0],
+                  rotate: [0, -15, 0],
+                  x: [0, -8, 0]
+                }}
+                transition={{
+                  duration: 10,
+                  repeat: Infinity,
+                  ease: "easeInOut"
+                }}
+              >
+                🌍
+              </motion.div>
+              
+              <motion.div 
+                className={`${styles.planet} ${styles.planet3}`}
+                animate={{
+                  rotate: [0, 360],
+                  scale: [1, 1.1, 1]
+                }}
+                transition={{
+                  duration: 20,
+                  repeat: Infinity,
+                  ease: "linear"
+                }}
+              >
+                ✨
+              </motion.div>
+            </div>
           </div>
           
           <div className={styles.navLinks}>
@@ -197,6 +249,9 @@ export default function Footer() {
             <Link href="#">Privacy Policy</Link>
             <Link href="#">Terms of Service</Link>
             <Link href="#">Cookies</Link>
+            <div className={styles.musicToggleWrapper}>
+              <MusicToggle />
+            </div>
           </div>
         </div>
       </div>
